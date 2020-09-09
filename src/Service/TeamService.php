@@ -19,19 +19,19 @@ class TeamService
         return $this->repository->findAll();
     }
 
-    public function create(string $name)
+    public function create(Team $team)
     {
-        return $this->repository->create($name);
+        return $this->repository->create($team);
     }
 
     public function update()
     {
-        return $this->repository->update();
+        $this->repository->update();
     }
 
     public function remove(Team $team)
     {
-        return $this->repository->remove($team);
+        $this->repository->remove($team);
     }
 
     public function getOneByName($name)

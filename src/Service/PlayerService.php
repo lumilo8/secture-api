@@ -40,9 +40,9 @@ class PlayerService
         return $this->repository->getByParams($params);
     }
 
-    public function create(string $name, int $team, string $position, int $price)
+    public function create(Player $player)
     {
-        return $this->repository->create($name, $team, $position, $price);
+        return $this->repository->create($player);
     }
 
     public function update()

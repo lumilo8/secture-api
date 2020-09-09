@@ -47,22 +47,11 @@ class PlayerRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param string $name
-     * @param int $team
-     * @param string $position
-     * @param int $price
+     * @param Player $player
      * @return Player
      */
-    public function create(string $name, int $team, string $position, int $price): Player
+    public function create(Player $player): Player
     {
-        $team = $this->teamRepository->find($team);
-
-        $player = new Player();
-        $player->setName($name);
-        $player->setTeam($team);
-        $player->setPosition($position);
-        $player->setPrice($price);
-
         $this->manager->persist($player);
         $this->manager->flush();
 

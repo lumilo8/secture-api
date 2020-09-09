@@ -13,6 +13,7 @@ class PlayerType extends AbstractType
     {
         $builder
             ->add('name')
+            ->add('team')
             ->add('position')
             ->add('price')
         ;

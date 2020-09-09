@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
+use App\Form\TeamType;
+use http\Exception\InvalidArgumentException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\TeamService;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -33,9 +36,13 @@ class TeamController extends AbstractController
      */
     public function createTeam(Request $request): JsonResponse
     {
-        $name = $request->get('name');
+        $data = json_decode($request->getContent(), true);
 
-        $team = $this->teamService->create($name);
+        $team = new Team();
+        $form = $this->createForm(TeamType::class, $team);
+        $form->submit($data);
+
+        $team = $this->teamService->create($form->getData());
 
         return new JsonResponse(sprintf('Equipo %s creado correctamente', $team->getName()), Response::HTTP_OK);
     }
@@ -48,12 +55,14 @@ class TeamController extends AbstractController
      */
     public function updateTeam(Team $team, Request $request): JsonResponse
     {
-        $name = $request->get('name');
+        $data = json_decode($request->getContent(), true);
 
-        $team->setName($name);
+        $form = $this->createForm(TeamType::class, $team);
+        $form->submit($data);
+
         $this->teamService->update();
 
-        return new JsonResponse(sprintf('Equipo %s actualizado correctamente', $name), Response::HTTP_OK);
+        return new JsonResponse(sprintf('Equipo %s actualizado correctamente', $team->getName()), Response::HTTP_OK);
     }
 
     /**

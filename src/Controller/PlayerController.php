@@ -39,14 +39,15 @@ class PlayerController extends AbstractController
      */
     public function createPlayer(Request $request): JsonResponse
     {
-        $name = $request->get('name');
-        $team = $request->get('team');
-        $position = $request->get('position');
-        $price = $request->get('price');
+        $data = json_decode($request->getContent(), true);
 
-        $this->playerService->create($name, $team, $position, $price);
+        $player = new Player();
+        $form = $this->createForm(PlayerType::class, $player);
+        $form->submit($data);
 
-        return new JsonResponse(sprintf('Jugador %s creado correctamente', $name), Response::HTTP_OK);
+        $player = $this->playerService->create($form->getData());
+
+        return new JsonResponse(sprintf('Jugador %s creado correctamente', $player->getName()), Response::HTTP_OK);
     }
 
     /**
@@ -68,6 +69,9 @@ class PlayerController extends AbstractController
 
     /**
      * @Route("/", name="all", methods={"GET"})
+     * @param Request $request
+     * @return JsonResponse
+     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
      */
     public function listPlayer(Request $request): JsonResponse
     {

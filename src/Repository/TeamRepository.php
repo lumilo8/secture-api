@@ -25,14 +25,11 @@ class TeamRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param string $name
+     * @param Team $team
      * @return Team
      */
-    public function create(string $name): Team
+    public function create(Team $team): Team
     {
-        $team = new Team();
-        $team->setName($name);
-
         $this->manager->persist($team);
         $this->manager->flush();
 
