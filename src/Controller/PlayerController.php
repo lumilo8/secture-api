@@ -86,12 +86,14 @@ class PlayerController extends AbstractController
             $price = !empty($currency)
                 ? $this->exchangeService->eurToCurrency($player->getPrice(), $currency)
                 : $player->getPrice();
+            $currencySymbol = $currency === 'USD' ? '$' : '€';
+
             $data[] = [
                 'id' => $player->getId(),
                 'name' => $player->getName(),
                 'team' => $player->getTeam()->getName(),
                 'position' => $player->getPosition(),
-                'price' => $price,
+                'price' => sprintf('%s%s', $price, $currencySymbol),
             ];
         }
 
@@ -108,6 +110,9 @@ class PlayerController extends AbstractController
         $data = [
             'id' => $player->getId(),
             'name' => $player->getName(),
+            'team' => $player->getTeam()->getName(),
+            'position' => $player->getPosition(),
+            'price' => sprintf('%s€', $player->getPrice()),
         ];
 
         return new JsonResponse($data, Response::HTTP_OK);

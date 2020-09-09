@@ -39,7 +39,7 @@ class Player
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Team")
-     * @ORM\JoinColumn(name="team", nullable=false)
+     * @ORM\JoinColumn(name="team_id", referencedColumnName="id", nullable=false)
      * @var Team
      */
     private $team;

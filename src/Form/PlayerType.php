@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Player;
+use App\Entity\Team;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -13,7 +15,9 @@ class PlayerType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('team')
+            ->add('team', EntityType::class, [
+                'class' => Team::class,
+            ])
             ->add('position')
             ->add('price')
         ;
